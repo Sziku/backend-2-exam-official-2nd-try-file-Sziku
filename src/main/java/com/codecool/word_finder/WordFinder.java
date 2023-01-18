@@ -17,11 +17,20 @@ public class WordFinder {
 
     public Map<String, Integer> getWordCount(String word){
         if(!word.equals("race") && !word.equals("acre")) throw new IllegalArgumentException();
+        load();
+        System.out.println(allLoadRows);
 
         Map<String, Integer> result = new HashMap<>();
+        result.put("race", 0);
+        result.put("acre", 0);
 
-
-
+        for(String row : allLoadRows){
+            if(row.contains("race")){
+                result.put("race",result.get("race") + 1);
+            } else if(row.contains("acre")){
+                result.put("acre",result.get("acre") + 1);
+            }
+        }
         return result;
     }
 
@@ -33,7 +42,7 @@ public class WordFinder {
             BufferedReader br = new BufferedReader(new FileReader(filePath));
             String st = br.readLine();
             while (st != null) {
-                allLoadRows.add(st);
+                allLoadRows.add(st.replaceAll("\\s", ""));
                 st = br.readLine();
             }
         } catch (IOException e) {
